@@ -12,7 +12,7 @@ bot = Bot(token='YOUR_API_TOKEN_HERE')
 # Create a dispatcher instance
 dp = Dispatcher(bot)
 
-# Define a message handler that echoes back the received message
+# Define a message handler that echoes back messages
 @dp.message_handler()
 async def echo(message: types.Message):
     await message.answer(message.text)
