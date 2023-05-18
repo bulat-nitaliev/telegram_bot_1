@@ -2,12 +2,18 @@
 import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
+# from dotenv import load_dotenv
+from os import getenv
+
+
+# load_dotenv()
+# BOT_TOKEN = getenv('TestPurposes123Bot')
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
 # Create a bot instance
-bot = Bot(token='YOUR_API_TOKEN_HERE')
+bot = Bot(token='5504422051:AAHSqYQBHRUFmyUZi0iFX7AG-cIw7HI1fvo')
 
 # Create a dispatcher instance
 dp = Dispatcher(bot)
