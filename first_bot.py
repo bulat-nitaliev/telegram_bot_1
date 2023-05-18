@@ -7,7 +7,7 @@ from aiogram.utils import executor
 logging.basicConfig(level=logging.INFO)
 
 # Create a bot instance
-bot = Bot(token='YOUR_API_TOKEN_HERE')
+bot = Bot(token='6119724113:AAGI1J30EvUHUv8cND0b7S_LR-94JXMi_F8')
 
 # Create a dispatcher instance
 dp = Dispatcher(bot)
