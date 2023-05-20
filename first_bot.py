@@ -5,6 +5,7 @@ from aiogram.utils import executor
 # from dotenv import load_dotenv
 from os import getenv
 
+
 from config import TOKEN
 
 # Set up logging
@@ -13,7 +14,6 @@ logging.basicConfig(level=logging.INFO)
 # Create a bot instance
 
 bot = Bot(token=TOKEN)
-
 
 # Create a dispatcher instance
 dp = Dispatcher(bot)
