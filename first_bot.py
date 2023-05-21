@@ -6,17 +6,23 @@ from aiogram.utils import executor
 from os import getenv
 
 
-# load_dotenv()
-# BOT_TOKEN = getenv('TestPurposes123Bot')
+from config import TOKEN
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
 # Create a bot instance
-bot = Bot(token='5504422051:AAHSqYQBHRUFmyUZi0iFX7AG-cIw7HI1fvo')
+
+bot = Bot(token=TOKEN)
 
 # Create a dispatcher instance
 dp = Dispatcher(bot)
+
+# Command handler for /chatid
+@dp.message_handler(commands=['chatid'])
+async def chatid(message: types.Message):
+    chat_id = message.chat.id
+    await message.answer(f"Ваш Chat ID: {chat_id}")
 
 # Define a message handler that echoes back messages
 @dp.message_handler()
