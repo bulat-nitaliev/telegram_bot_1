@@ -25,6 +25,7 @@ async def echo(message: types.Message):
     await message.answer(message.text)
 
 
+
 # Start the bot using the executor
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
