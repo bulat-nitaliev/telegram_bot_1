@@ -5,7 +5,7 @@ from column_names import for_beginner
 
 engine = create_engine('sqlite:///DataBase.db')
 metadata = MetaData()
-Session = sessionmaker(bind=engine)
+Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = Session()
 
 Base = declarative_base()
