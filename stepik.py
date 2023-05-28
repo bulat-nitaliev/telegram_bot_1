@@ -2,9 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 from config import CLIENT_ID, CLIENT_SECRET
 
-url = "https://stepik.org/users/270531229"
-url = "https://stepik.org/lesson/265077/step/4"
-url = "https://stepik.org:443/api/course-grades?course=68343&user=270531229" 
 
 def get_stepik_token():
     auth = requests.auth.HTTPBasicAuth(CLIENT_ID, CLIENT_SECRET)
