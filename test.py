@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import date
 from models import Result, Student, session
 from stepik import html_title
 
@@ -10,7 +10,7 @@ with open('data.json', encoding='utf-8') as data:
 student_id = data['course-grades'][0]["user"]
 course_id = data['course-grades'][0]["course"]
 score = data['course-grades'][0]["score"]
-current_time = datetime.now().time()
+current_time = date.today()
 
 obj = Result(
     student_id = student_id,
