@@ -1,10 +1,11 @@
 # Run with Python 3
 import requests
-
+import json
+from config import client_id, client_secret,stepik_id,course_id
 # 1. Get your keys at https://stepik.org/oauth2/applications/
 # (client type = confidential, authorization grant type = client credentials)
-client_id = "m9hLK9NrSQzAn6gu2Ngixpj9r690fnpoitivhoOC"
-client_secret = "7mGzw1H3SOD1SdE0nB7cG5saNGuy2jM0xRq6hwN3yE9mXyO5ZPZVb08S06TKhGGjZ1GClDA77IXbUGKWcI76PDErf4zU1gIIK2djiAbNwoI8skOoIulOcdYyx6mqgRDT"
+client_id = client_id
+client_secret = client_secret
 
 # 2. Get a token
 auth = requests.auth.HTTPBasicAuth(client_id, client_secret)
@@ -17,8 +18,15 @@ if not token:
     exit(1)
 
 # 3. Call API (https://stepik.org/api/docs/) using this token.
-api_url = 'https://stepik.org:443/api/course-grades?course=100707&user=190715002'
+api_url = f'https://stepik.org:443/api/course-grades?course={course_id}&user={stepik_id}'
 course = requests.get(api_url,
                       headers={'Authorization': 'Bearer ' + token}).json()
 
-print(course)
+api_url = f'https://stepik.org:443/api/users/{stepik_id}'
+name = requests.get(api_url,
+                      headers={'Authorization': 'Bearer ' + token}).json()
+
+s1 = json.dumps(course)
+s2 = json.dumps(name)
+data = json.loads(s1)
+stepic_name = json.loads(s2)['users'][0]['full_name']
