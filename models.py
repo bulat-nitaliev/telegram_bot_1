@@ -20,8 +20,6 @@ class Result(Base):
     stepik_id = Column(Integer, primary_key=True)
     course_id = Column(Integer)
     score = Column(Integer)
-    last_viewed = Column(Date)
-    update_date = Column(Date)
 
 # Create the table in the database
 Base.metadata.create_all(engine)
