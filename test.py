@@ -15,7 +15,7 @@ session = Session()
 with open('data.json') as json_file:
     data = json.load(json_file)
 
-stepik_id = data["course-grades"][0]["id"]
+stepik_id = 999
 course_id = data["course-grades"][0]["course"]
 score = data["course-grades"][0]["score"]
 
