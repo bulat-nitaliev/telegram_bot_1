@@ -2,7 +2,7 @@
 import re
 
 import requests
-from config import CLIENT_ID, CLIENT_SECRET, COURSE_ID, STEPIK_ID
+from config import CLIENT_ID, CLIENT_SECRET, COURSE_ID, STEPIK_ID, DEV_ID
 from bs4 import BeautifulSoup
 
 # 1. Get your keys at https://stepik.org/oauth2/applications/
@@ -35,13 +35,12 @@ print(course_grades)
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from telegram_bot_1.models import Result
+from telegram_bot_1.models import Result, User
 
 # Define the SQLAlchemy database engine and session
 engine = create_engine('sqlite:///database.db')
 Session = sessionmaker(bind=engine)
 session = Session()
-
 
 stepik_id = course_grades["course-grades"][0]["id"]
 course_id = course_grades["course-grades"][0]["course"]
@@ -61,8 +60,16 @@ html_content = response.content
 
 soup = BeautifulSoup(html_content, 'html.parser')
 raw_name = soup.text
-text_only = re.sub(r'\s+', ' ', raw_name).strip().split()[:2]
-name = " ".join(text_only)
+name_from_parse = soup.title.string.strip()[:-9]
 
-print("name")
+print(name_from_parse)
 
+engine = create_engine('sqlite:///database.db')
+Session = sessionmaker(bind=engine)
+session = Session()
+
+model = User(stepik_id=STEPIK_ID, tg_id=DEV_ID, name=name_from_parse)
+session.add(model)
+
+session.commit()
+session.close()
