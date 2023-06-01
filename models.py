@@ -2,9 +2,12 @@ from sqlite3 import Date
 
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-# Create an SQLite engine
+# Define the SQLAlchemy database engine and session
 engine = create_engine('sqlite:///database.db')
+Session = sessionmaker(bind=engine)
+session = Session()
 
 # Declare the "user" table model
 Base = declarative_base()

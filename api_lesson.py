@@ -1,8 +1,9 @@
 # Run with Python 3
 import re
+from models import session
 
 import requests
-from config import CLIENT_ID, CLIENT_SECRET, COURSE_ID, STEPIK_ID, DEV_ID
+from config import CLIENT_ID, CLIENT_SECRET, COURSE_ID, DEV_ID
 from bs4 import BeautifulSoup
 
 # 1. Get your keys at https://stepik.org/oauth2/applications/
@@ -16,7 +17,6 @@ response = requests.post('https://stepik.org/oauth2/token/',
 token = response.json().get('access_token', None)
 if not token:
     print('Unable to authorize with provided credentials')
-    exit(1)
 
 # 3. Get info about course
 api_url = f'https://stepik.org/api/courses/{COURSE_ID}'
@@ -24,7 +24,7 @@ course = requests.get(api_url,
                       headers={'Authorization': 'Bearer ' + token}).json()
 
 print(course)
-
+STEPIK_ID = 270531229
 # 4. Get course - grades
 course_grades_url = f"https://stepik.org:443/api/course-grades?course={COURSE_ID}&user={STEPIK_ID}"
 course_grades = course = requests.get(course_grades_url,
@@ -37,10 +37,7 @@ from sqlalchemy.orm import sessionmaker
 
 from telegram_bot_1.models import Result, User
 
-# Define the SQLAlchemy database engine and session
-engine = create_engine('sqlite:///database.db')
-Session = sessionmaker(bind=engine)
-session = Session()
+
 
 stepik_id = course_grades["course-grades"][0]["id"]
 course_id = course_grades["course-grades"][0]["course"]
@@ -50,7 +47,6 @@ model = Result(stepik_id=stepik_id, course_id=course_id, score=score)
 session.add(model)
 
 session.commit()
-session.close()
 
 # 4. PARSING user_name from stepik.org
 
@@ -72,4 +68,3 @@ model = User(stepik_id=STEPIK_ID, tg_id=DEV_ID, name=name_from_parse)
 session.add(model)
 
 session.commit()
-session.close()
