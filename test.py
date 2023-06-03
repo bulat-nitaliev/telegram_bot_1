@@ -21,13 +21,14 @@ obj = Result(
 session.add(obj)
 session.commit()
 
-my_stepik_id = 270531229
+my_stepik_id = 56576756
 url = f"https://stepik.org/users/{my_stepik_id}"
 name = html_title(url)
 
 obj = Student(
-    id = my_stepik_id,
+        
     name = name
 )
 session.add(obj)
 session.commit()
+
