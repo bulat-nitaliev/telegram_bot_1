@@ -1,7 +1,7 @@
 import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
-from config import TOKEN
+from config import TOKEN, tg_grupp, tg_bot, DEV_ID
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token = TOKEN)
@@ -14,17 +14,16 @@ chat_id_group = None
 async def welcome(message: types.Message):
     global new_member, chat_id_group
     new_member = message.new_chat_members
-    # if new_member.is_bot:
-    #     # Пропускаем ботов
-    #     return
+    new_name = message.new_chat_members[0]['first_name']
     chat_id_group = message.chat.id
-    welcome_message = "Добро пожаловать в нашу образовательную группу! Мы здесь изучаем Python\U0001F40D\nНаша " \
+    welcome_message =f"{new_name} \nДобро пожаловать в нашу образовательную группу! Мы здесь изучаем Python\U0001F40D\nНаша " \
                       "цель это достижение результата посредством взаимопомощи в процессе обучения.\nДля того " \
                       "чтобы стать частью нашего дружного коллектива, пожалуйста, напишите нашему боту сообщение " \
-                      "'/start' для получения дальнейших инструкций:\n@shibzuko_training1_bot\n\n" \
+                     f"'/start' для получения дальнейших инструкций:\n  {tg_bot} \n\n" \
                       "P.S. Этого бота разработали участники нашего сообщества :)"
-    message_to_admin = f"В группу А присоединился новый пользователь"
+    message_to_admin = f"В группу присоединился новый пользователь {new_member}"
     await bot.send_message(chat_id_group, welcome_message)
+    await bot.send_message(DEV_ID, message_to_admin)
     await bot.restrict_chat_member(
         chat_id=message.chat.id,
         user_id=new_member[0].id,
@@ -34,10 +33,12 @@ async def welcome(message: types.Message):
 
 
 # Отправка инструкции пользователю припервом запуске бота или по команде /start
+
 @dp.message_handler(commands='start', chat_type=types.ChatType.PRIVATE)
 async def instruction(message: types.Message):
     chat_id = message.chat.id
-    photo_path = "png/stepik.png"
+    photo_path = r'C:\Users\6417\Desktop\Bot\telegram_bot_1\png\stepic.png'
+    description = 'URL-адрес из адресной строки'
     text = (f'Welcome!\nНаша цель - это создание сплоченного коллектива в котором все будут помогать и '
                         f'мотивировать друг друга.\n\nОсновной площадкой нашего обучения является платформа '
                         f'https://stepik.org, а в частности линейка из серии курсов "Поколение Python", в которую входят:\n\n'
@@ -53,26 +54,31 @@ async def instruction(message: types.Message):
                          f'2. Перейти в "Профиль" в верхнем правом углу\n'
                          f'3. Скопировать URL-адрес из адресной строки(пример:https://stepik.org/users/315844473) '
                          f'и отправить мне')
-    await bot.send_photo(chat_id, photo=open(photo_path, 'rb'), caption=text)
+    await  bot.send_message(chat_id,text)
+    await bot.send_photo(chat_id, photo=open(photo_path, 'rb'), caption=description)
+    
 
   # Проверка URL пользователя
 
+
+dic = {}
 @dp.message_handler(chat_type=types.ChatType.PRIVATE)
 async def test_url(message: types.Message, can_send_messages=False):
     chat_id = message.chat.id
     username = message.chat.username
     text = message.text
-
     if 'https://stepik.org/users/' in text and text[text.rfind('/')+1:].isdigit():
         await bot.send_message(chat_id, f'Благодарю за информацию! Добро пожаловать! '
-                                        f'Теперь вы можете отправлять сообщения в группе @stepikbottest')
+                                        f'Теперь вы можете отправлять сообщения в группе {tg_grupp}')
+        dic[chat_id] = [username,text]
+        await bot.send_message(DEV_ID, f'словарь {dic}')
         if can_send_messages is False:
             await bot.restrict_chat_member(
                 chat_id=chat_id_group,
                 user_id=new_member[0].id,
                 permissions=types.ChatPermissions(can_send_messages=True)
             )
-        await bot.send_message(725523680, f'Пользователь @{username} добавил stepik_id:{text}. Проверьте корректность данных')
+        await bot.send_message(DEV_ID, f'Пользователь @{username} добавил stepik_id:{text}. Проверьте корректность данных')
     else:
         await bot.send_message(chat_id, 'Пожалуйста, введите корректный URL-адрес\nПример: https://stepik.org/users/315844473')
 
