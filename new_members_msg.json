@@ -1,0 +1,39 @@
+{
+    "message_id": 494, 
+    "from": {
+        "id": 1655308592, 
+        "is_bot": false, 
+        "first_name": "Marsel", 
+        "username": "suqbay", 
+        "language_code": "en"
+    }, 
+    "chat": {
+        "id": -1001898412306, 
+        "title": "TestMyBots Group", 
+        "type": "supergroup"
+    }, 
+    "date": 1685853735, 
+    "new_chat_participant": {
+        "id": 1655308592, 
+        "is_bot": false, 
+        "first_name": "Marsel", 
+        "username": "suqbay", 
+        "language_code": "en"
+    }, 
+    "new_chat_member": {
+        "id": 1655308592, 
+        "is_bot": false, 
+        "first_name": "Marsel", 
+        "username": "suqbay", 
+        "language_code": "en"
+    }, 
+    "new_chat_members": [
+        {
+            "id": 1655308592, 
+            "is_bot": false, 
+            "first_name": "Marsel", 
+            "username": "suqbay", 
+            "language_code": "en"
+        }
+    ]
+}
