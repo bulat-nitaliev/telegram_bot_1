@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, String, Date, Float, ForeignKey, Table, MetaData
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
-from static.data import for_beginner_columns
+from .static.data import for_beginner_columns
 
 
 
