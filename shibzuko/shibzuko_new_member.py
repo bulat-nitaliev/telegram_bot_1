@@ -7,9 +7,8 @@ from shibzuko.static.data import greeting_text, id_passed_text, instructions, me
 from shibzuko.stepik import stepik_data, get_stepik_token
 from shibzuko.models import Student, session
 
-
 logging.basicConfig(level=logging.INFO)
-bot = Bot(token = TOKEN)
+bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
 
@@ -46,7 +45,6 @@ async def instruction(message: types.Message):
 # Проверка URL пользователя
 @dp.message_handler(chat_type=types.ChatType.PRIVATE)
 async def test_url(message: types.Message, can_send_messages=False):
-    chat_id = GROUP_ID
     group_name = GROUP_NAME
     user_id = message.chat.id
     username = message.chat.username
@@ -61,9 +59,40 @@ async def test_url(message: types.Message, can_send_messages=False):
                 permissions=types.ChatPermissions(can_send_messages=True)
             )
         await bot.send_message(ADMIN, message_for_admin % (username, text))
+
+        #############################
+
+        user_data_url = f"https://stepik.org:443/api/users/{stepik_id}"
+        user_data = stepik_data(user_data_url, stepik_token)
+        name = user_data['users'][0]['full_name']
+        tg_id = message.from_user.id
+        tg_full_name = message.from_user.full_name
+        new_obj = Student(
+            id=stepik_id,
+            name=name,
+            tg_id=tg_id,
+            tg_full_name=tg_full_name,
+            tg_username=message.from_user.username
+        )
+        print()
+        session.merge(new_obj)
+        session.commit()
+        await bot.restrict_chat_member(
+            chat_id=GROUP_ID,
+            user_id=tg_id,
+            permissions=types.ChatPermissions(
+                can_send_messages=True,
+                can_send_media_messages=True
+            )
+        )
+        invite_link = await bot.export_chat_invite_link(GROUP_ID)
+        await message.answer(text=id_passed_text % invite_link)
+
+        #############################
+
+
     else:
         await bot.send_message(user_id, url_error)
-
 
 
 # @dp.message_handler(chat_type=types.ChatType.PRIVATE)
@@ -100,4 +129,4 @@ async def test_url(message: types.Message, can_send_messages=False):
 
 if __name__ == '__main__':
     stepik_token = get_stepik_token()
-    executor.start_polling(dp) 
+    executor.start_polling(dp)

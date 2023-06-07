@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 from shibzuko.static.data import for_beginner
 
 
-engine = create_engine('sqlite:///DataBase.db')
+engine = create_engine('sqlite:///ShibzukoDataBase.db')
 metadata = MetaData()
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = Session()
