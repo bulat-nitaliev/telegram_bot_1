@@ -5,14 +5,17 @@ from aiogram.utils import executor
 from config import TOKEN, GROUP_ID, BOT_NAME, DEV_ID
 from static.data import greeting_text, id_passed_text, instructions
 from stepik import stepik_data, get_stepik_token
-from models import Student, Result, session
+from models import Student, Result, python_for_advanced, session
 from datetime import date
+from sqlalchemy import insert, select, update
+
 
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token = TOKEN)
 dp = Dispatcher(bot)
 
+update_date = date.today()
 
 @dp.message_handler(content_types=types.ContentType.NEW_CHAT_MEMBERS)
 async def welcome(message: types.Message):
@@ -57,21 +60,51 @@ async def private_msgs(message: types.Message):
             tg_username = message.from_user.username
         )
     
-    result_data_url =f'https://stepik.org:443/api/course-grades?course=58852&user={stepik_id}'
+    result_data_url =f'https://stepik.org:443/api/course-grades?user={stepik_id}'
     result_data = stepik_data(result_data_url, stepik_token)
-    course_id = result_data['course-grades'][0]['course']
-    score = result_data['course-grades'][0]['score']
-    update_date = date.today()
     
-    new_objects = Result(        
-        student_id = stepik_id,      
-        course_id = course_id,
-        score = score,
-        update_date = update_date
-    )
+    for i in range(len(result_data['course-grades'])):
+                          
+        course_id = result_data['course-grades'][i]['course']
+        score = result_data['course-grades'][i]['score']
+        update_date = date.today()
+                
+        # проверяем, есть ли уже такая запись в базе данных
+        existing_record = session.query(Result).filter_by(student_id=stepik_id, course_id=course_id).first()
+
+        if existing_record:
+            
+            existing_record.score = score
+            existing_record.update_date = update_date
+            
+        else:
+            new_record = Result(student_id=stepik_id, course_id=course_id, score=score, update_date=update_date)
+            session.add(new_record)  
+
+        # сохраняем изменения в базе данных
+        session.commit()  
+      
     session.merge(new_obj)
-    session.add(new_objects)
     session.commit()
+    
+    for_advanced = f'https://stepik.org:443/api/course-grades?course=68343&user={stepik_id}'
+    begin_data = stepik_data(for_advanced, stepik_token)
+    
+    for key, i in begin_data['course-grades'][0]['results'].items():
+        if i['is_passed']:
+            record = session.query(python_for_advanced).filter_by(student_id=stepik_id).first()
+
+            if record:
+                if getattr(record, key) is None:
+                    session.execute(python_for_advanced.update().values(**{key: update_date}).where(python_for_advanced.c.student_id == stepik_id))
+            else:
+                ins = python_for_advanced.insert().values(student_id=stepik_id, update_date=update_date, **{key: update_date})
+                session.execute(ins)
+
+            session.commit()
+        else:
+            continue   
+              
     await bot.restrict_chat_member(
             chat_id=GROUP_ID, 
             user_id=tg_id, 
