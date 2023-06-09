@@ -21,11 +21,38 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token = TOKEN)
 dp = Dispatcher(bot)
 
+new_member = None
+chat_id_group = None
+# Приветствие новых пользователей
+@dp.message_handler(content_types=types.ContentType.NEW_CHAT_MEMBERS)
+async def welcome(message: types.Message):
+    global new_member, chat_id_group
+    new_member = message.new_chat_members
+    # if new_member.is_bot:
+    #     # Пропускаем ботов
+    #     return
+    chat_id_group = message.chat.id
+    welcome_message = "Добро пожаловать в нашу образовательную группу! Мы здесь изучаем Python\U0001F40D\nНаша " \
+                      "цель это достижение результата посредством взаимопомощи в процессе обучения.\nДля того " \
+                      "чтобы стать частью нашего дружного коллектива, пожалуйста, напишите нашему боту сообщение " \
+                      "'/start' для получения дальнейших инструкций:\n@shibzuko_training1_bot\n\n" \
+                      "P.S. Этого бота разработали участники нашего сообщества :)"
+    message_to_admin = f"В группу А присоединился новый пользователь"
+    await bot.send_message(chat_id_group, welcome_message)
+    await bot.restrict_chat_member(
+        chat_id=message.chat.id,
+        user_id=new_member[0].id,
+        permissions=types.ChatPermissions(can_send_messages=False)
+    )
 
-@dp.message_handler(commands=['chatid'])
-async def chatid(message: types.Message):
+
+
+# Отправка инструкции пользователю припервом запуске бота или по команде /start
+@dp.message_handler(commands='start', chat_type=types.ChatType.PRIVATE)
+async def instruction(message: types.Message):
     chat_id = message.chat.id
     await message.answer(f"Ваш Chat ID: {chat_id}") 
+
 
 @dp.message_handler(content_types=[types.ContentType.NEW_CHAT_MEMBERS])
 async def new_members_handler(message: types.Message):    

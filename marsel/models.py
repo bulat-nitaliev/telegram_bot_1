@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, String, Date, Float, ForeignKey, Table, MetaData
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
-from static.data import for_beginner_columns
-
+from .static.data import for_beginner
 
 
 engine = create_engine('sqlite:///DataBase.db')
@@ -21,6 +20,7 @@ class Student(Base):
     tg_username = Column(String)
     results = relationship("Result", back_populates="student")
 
+
 class Result(Base):
     __tablename__ = 'result'
     id = Column(Integer, primary_key=True)
@@ -36,6 +36,6 @@ Base.metadata.create_all(engine)
 python_for_beginner = Table('for_beginner', metadata,
               Column('student_id', Integer, primary_key=True),
               Column('update_date', Date),
-              *[Column(name, Date) for name in for_beginner_columns])
+              *[Column(name, Date) for name in for_beginner])
 
 metadata.create_all(engine)

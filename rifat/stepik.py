@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from config import CLIENT_ID, CLIENT_SECRET
+from .config import CLIENT_ID, CLIENT_SECRET
 
 
 def get_stepik_token():
