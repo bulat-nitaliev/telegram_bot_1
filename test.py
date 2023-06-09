@@ -33,5 +33,3 @@ result = Result(name=stepic_name,score=score,last_viewed=last_viewed,author=user
 
 session.add(result)
 session.commit()
-
-
