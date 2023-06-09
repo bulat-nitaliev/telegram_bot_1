@@ -1,33 +1,34 @@
 import json
 from datetime import date
-from models import Result, Student, session
-from stepik import html_title
+from sqlalchemy.orm.session import sessionmaker
+from model import engine, User, Result
+from stepic_api import  data, stepic_name
+from config import stepik_id, course_id, tg_fullname, DEV_ID
 
 
-with open('data.json', encoding='utf-8') as data:
-    data = json.load(data)
+session = sessionmaker(bind=engine)()
+#User
+tg_id = DEV_ID
+tg_fullname = tg_fullname
+stepik_id = stepik_id
+course_id = course_id
 
-student_id = data['course-grades'][0]["user"]
-course_id = data['course-grades'][0]["course"]
-score = data['course-grades'][0]["score"]
-current_time = date.today()
+new_user = User(tg_id=tg_id,tg_fullname=tg_fullname,stepik_id=stepik_id,course_id=course_id)
 
-obj = Result(
-    student_id = student_id,
-    course_id = course_id,
-    score = score,
-    update_date = current_time
-)
-session.add(obj)
+session.add(new_user)
 session.commit()
 
-my_stepik_id = 270531229
-url = f"https://stepik.org/users/{my_stepik_id}"
-name = html_title(url)
 
-obj = Student(
-    id = my_stepik_id,
-    name = name
-)
-session.add(obj)
+user = session.query(User).filter(User.id==1).first()
+
+#Result
+name = stepic_name
+score = data['course-grades'][0]['score']
+y,m,d = map(int,data['course-grades'][0]['last_viewed'][:10].split('-'))
+last_viewed = date(y,m,d)
+
+result = Result(name=stepic_name,score=score,last_viewed=last_viewed,author=user)
+
+
+session.add(result)
 session.commit()
