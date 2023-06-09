@@ -2,10 +2,10 @@ import logging
 import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
-from .config import TOKEN, GROUP_ID, BOT_NAME, DEV_ID
-from .static.data import greeting_text, id_passed_text, instructions
-from .stepik import stepik_data, get_stepik_token
-from .models import Student, session
+from config import TOKEN, GROUP_ID, BOT_NAME, DEV_ID
+from static.data import greeting_text, id_passed_text, instructions
+from stepik import stepik_data, get_stepik_token
+from models import Student, session
 
 
 logging.basicConfig(level=logging.INFO)

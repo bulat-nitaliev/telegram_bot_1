@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine, Column, Integer, String, Date, Float, ForeignKey, Table, MetaData
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
-from .static.data import for_beginner
+from static.data import for_beginner
 
 
-engine = create_engine('sqlite:///DataBase.db')
+engine = create_engine('sqlite:///marsel/DataBase.db')
 metadata = MetaData()
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = Session()
