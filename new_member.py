@@ -5,10 +5,8 @@ from aiogram.utils import executor
 from config import TOKEN, GROUP_ID, BOT_NAME, DEV_ID
 from static.data import greeting_text, id_passed_text, instructions
 from stepik import stepik_data, get_stepik_token
-from models import Student, Result, python_for_advanced, session
+from models import Student, Result, session, python_for_beginner, python_for_advanced
 from datetime import date
-from sqlalchemy import insert, select, update
-
 
 
 logging.basicConfig(level=logging.INFO)
@@ -16,6 +14,7 @@ bot = Bot(token = TOKEN)
 dp = Dispatcher(bot)
 
 update_date = date.today()
+course_number = {58852: python_for_beginner,68343: python_for_advanced}
 
 @dp.message_handler(content_types=types.ContentType.NEW_CHAT_MEMBERS)
 async def welcome(message: types.Message):
@@ -87,23 +86,26 @@ async def private_msgs(message: types.Message):
     session.merge(new_obj)
     session.commit()
     
-    for_advanced = f'https://stepik.org:443/api/course-grades?course=68343&user={stepik_id}'
-    begin_data = stepik_data(for_advanced, stepik_token)
-    
-    for key, i in begin_data['course-grades'][0]['results'].items():
-        if i['is_passed']:
-            record = session.query(python_for_advanced).filter_by(student_id=stepik_id).first()
+    for course, table in course_number.items():
+        
+        course_number1 = f'https://stepik.org:443/api/course-grades?course={course}&user={stepik_id}'
+        
+        begin_data = stepik_data(course_number1, stepik_token)
+        
+        for key, i in begin_data['course-grades'][0]['results'].items():
+            if i['is_passed']:
+                record = session.query(table).filter_by(student_id=stepik_id).first()
 
-            if record:
-                if getattr(record, key) is None:
-                    session.execute(python_for_advanced.update().values(**{key: update_date}).where(python_for_advanced.c.student_id == stepik_id))
+                if record:
+                    if getattr(record, key) is None:
+                        session.execute(table.update().values(**{key: update_date}).where(table.c.student_id == stepik_id))
+                else:
+                    ins = table.insert().values(student_id=stepik_id, update_date=update_date, **{key: update_date})
+                    session.execute(ins)
+
+                session.commit()
             else:
-                ins = python_for_advanced.insert().values(student_id=stepik_id, update_date=update_date, **{key: update_date})
-                session.execute(ins)
-
-            session.commit()
-        else:
-            continue   
+                continue   
               
     await bot.restrict_chat_member(
             chat_id=GROUP_ID, 
