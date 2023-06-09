@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, String, Date, Float, ForeignKey, Table, MetaData
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
-from static.data import for_beginner_columns
+from .static.data import for_beginner_columns
 
 
 
@@ -20,6 +20,7 @@ class Student(Base):
     tg_full_name = Column(String)
     tg_username = Column(String)
     results = relationship("Result", back_populates="student")
+
 
 class Result(Base):
     __tablename__ = 'result'
