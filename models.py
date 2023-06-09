@@ -21,7 +21,6 @@ class Student(Base):
     tg_username = Column(String)
     results = relationship("Result", back_populates="student")
 
-
 class Result(Base):
     __tablename__ = 'result'
     id = Column(Integer, primary_key=True)
