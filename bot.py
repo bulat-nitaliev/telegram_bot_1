@@ -1,133 +1,112 @@
 import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
-from config import TOKEN, tg_grupp, tg_bot, DEV_ID
-
+from config import TOKEN, BOT_NAME, GROUP_ID
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.dispatcher.filters import ChatTypeFilter, IsReplyFilter
+from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters import Command
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token = TOKEN)
-dp = Dispatcher(bot)
+
+storage = MemoryStorage()
+dp = Dispatcher(bot, storage=storage)
 
 
-# Приветствие новых пользователей
-@dp.message_handler(content_types=types.ContentType.NEW_CHAT_MEMBERS)
-async def welcome(message: types.Message):
-    global new_member, chat_id_group
-    new_member = message.new_chat_members
-    new_name = message.new_chat_members[0]['first_name']
-    chat_id_group = message.chat.id
-    welcome_message =f"{new_name} \nДобро пожаловать в нашу образовательную группу! Мы здесь изучаем Python\U0001F40D\nНаша " \
-                      "цель это достижение результата посредством взаимопомощи в процессе обучения.\nДля того " \
-                      "чтобы стать частью нашего дружного коллектива, пожалуйста, напишите нашему боту сообщение " \
-                     f"'/start' для получения дальнейших инструкций:\n  {tg_bot} \n\n" \
-                      "P.S. Этого бота разработали участники нашего сообщества :)"
-    message_to_admin = f"В группу присоединился новый пользователь {new_member}"
-    await bot.send_message(chat_id_group, welcome_message)
-    await bot.send_message(DEV_ID, message_to_admin)
-    await bot.restrict_chat_member(
-        chat_id=message.chat.id,
-        user_id=new_member[0].id,
-        permissions=types.ChatPermissions(can_send_messages=False)
-    )
-
-
-# Отправка инструкции пользователю припервом запуске бота или по команде /start
-@dp.message_handler(commands='start', chat_type=types.ChatType.PRIVATE)
-async def instruction(message: types.Message):
+@dp.message_handler(commands=['chatid'])
+async def chatid(message: types.Message):
     chat_id = message.chat.id
-    photo_path = r'C:\Users\6417\Desktop\Bot\telegram_bot_1\png\stepic.png'
-    description = 'URL-адрес из адресной строки'
-    photo_path = "media/stepik.png"
-# Проверка URL пользователя
-    if 'https://stepik.org/users/' in text and text[text.rfind('/')+1:].isdigit():
-        await bot.send_message(chat_id, f'Благодарю за информацию! Добро пожаловать! '
-                                        f'Теперь вы можете отправлять сообщения в группе {tg_grupp}')
-        dic[chat_id] = [username,text]
-        await bot.send_message(DEV_ID, f'словарь {dic}')
-    group_link = f"https://t.me/joinchat/{GROUP_ID}"
+    await message.answer(f"Ваш Chat ID: {chat_id}")
 
-    if 'https://stepik.org/users/' in text and text[text.rfind('/')+1:].isdigit():
-        await bot.send_message(GROUP_ID, f'Благодарю за информацию! Добро пожаловать! '
-                                        f'Теперь вы можете отправлять сообщения в группе {group_link}')
-        await bot.send_message(DEV_ID, f'Пользователь @{username} добавил stepik_id:{text}. Проверьте корректность данных')
+
+# Здесь будет ваш код
+
+# Обработчик вступления новых участников
+# Определение состояния для ожидания правильного степик URL от участника
+class RegistrationState(StatesGroup):
+    WaitingForURL = State()
+
+@dp.message_handler(content_types=types.ContentType.NEW_CHAT_MEMBERS)
+async def new_member_join(message: types.Message):
+    for new_member in message.new_chat_members:
+        new_member_name = new_member.first_name
+        new_member_id = new_member.id
+
+
+        # Ограничение прав нового участника на отправку сообщений
+        permissions = types.ChatPermissions(can_send_messages=False)
+        await bot.restrict_chat_member(chat_id=message.chat.id, user_id=new_member_id, permissions=permissions)
+
+        # Отправка приветственного сообщения в группу
+        welcome_message = f"Привет, {new_member_name}! Мы здесь учим Python и помогаем друг другу. Напиши мне {BOT_NAME}, чтобы продолжить."
+        await bot.send_message(chat_id=GROUP_ID, text=welcome_message)
+
+# Обработчик команды /start
+@dp.message_handler(commands=["start"])
+async def start_command(message: types.Message, state: FSMContext):
+    # Отправка инструкции и фото
+    photos = [
+    types.InputMediaPhoto(media=open('media/photo1.png', 'rb'), caption='Step 1 - Нажимаем на иконку в правом верхнем углу.'),
+    types.InputMediaPhoto(media=open('media/photo2.png', 'rb'), caption='Step 2 - Нажимаем на "Profile"'),
+    types.InputMediaPhoto(media=open('media/photo3.png', 'rb'), caption='Step 3 - Нажимаем на строку запроса'),
+    types.InputMediaPhoto(media=open('media/photo4.png', 'rb'), caption='Step 4 - Копируем и отправляем боту URL'),
+]
+    await bot.send_message(chat_id=message.chat.id, text="Добро пожаловать! Пожалуйста, отправьте ваш URL как показано на следующих фотографиях.")
+    await message.reply_media_group(media=photos)
+
+    
+    # Установка состояния ожидания степик URL для данного участника
+    # # Получаем информацию о пользователе
+    tg_user = message.from_user
+    tg_id = tg_user.id
+    # tg_first_name = tg_user.first_name  # Имя пользователя
+    # tg_last_name = tg_user.last_name    # Фамилия пользователя (может быть None)
+    # tg_username = tg_user.username      # Юзернейм пользователя (может быть None)
+    # if last_name:
+    #     full_name = f"{first_name} {last_name}"
+    # else:
+    #     full_name = first_name
+
+    await RegistrationState.WaitingForURL.set()
+    await state.update_data(member_id=tg_id)
+
+
+# Обработчик текстовых сообщений
+@dp.message_handler(state=RegistrationState.WaitingForURL, content_types=types.ContentTypes.TEXT)
+async def handle_url_message(message: types.Message, state: FSMContext):
+    # Обработка полученного степик URL
+    stepik_url = message.text
+
+    # Проверка правильности степик URL 
+
+    if stepik_url.startswith("https://stepik.org/users/"):
+        # Разрешение участнику отправлять сообщения в группе
+        data = await state.get_data()
+        member_id = data.get("member_id")
+        permissions = types.ChatPermissions(can_send_messages=True)
+        await bot.restrict_chat_member(chat_id=GROUP_ID, user_id=member_id, permissions=permissions)
+
+        # Извлечение степик айди из URL
+        stepik_id = message.text.split("/")[-1]
+
+        # Дальнейшая обработка степик айди
+        await message.reply(f"Степик айди: {stepik_id}")
+
+        # Отправка подтверждения о разрешении отправки сообщений
+        confirmation_message = "Спасибо! Вы можете теперь отправлять сообщения в группе."
+        await message.reply(confirmation_message)
+
+        # Сброс состояния участника
+        await state.finish()
     else:
-        await message.answer('Пожалуйста, введите корректный URL-адрес\nПример: https://stepik.org/users/315844473')
-    await message.answer(f"Ваш Chat ID: {chat_id}") 
+        # Обработка неправильного степик URL
+        error_message = "Неправильный формат URL. Пожалуйста, отправьте URL, начинающийся с 'https://stepik.org/users/'."
+        await message.reply(error_message)
 
 
-@dp.message_handler(content_types=[types.ContentType.NEW_CHAT_MEMBERS])
-async def new_members_handler(message: types.Message): 
-       
-    new_member_name = message.new_chat_members[0].first_name
-    
-    bot_username = "berenche_bot"
-    bot_link = f"https://t.me/{bot_username}"
-        
-    welcome_message = f"Добро пожаловать в группу, {new_member_name}!"\
-                      f"Для получения инструкции напишите боту {bot_username}: {bot_link}. Первое сообщение для бота '/start' "
-    await message.answer(welcome_message)
-    restricted_permissions = ChatPermissions( 
-        can_send_messages=False, 
-        can_send_media_messages=False, 
-        can_send_polls=False, 
-        can_send_other_messages=False, 
-        can_add_web_page_previews=False, 
-        can_change_info=False, 
-        can_invite_users=False, 
-        can_pin_messages=False 
-    )     
-     
-    await bot.restrict_chat_member(message.chat.id, message.new_chat_members[0].id, restricted_permissions) 
-    
-    
-@dp.message_handler(commands = ['start'],chat_type=types.ChatType.PRIVATE)
-async def command_start(message: types.Message):
-    with open("Foto.png", "rb") as file:
-            await bot.send_message(message.from_user.id,
-                "Зарегистрируйтесь на сайте {https://stepik.org} и отправьте url вашей страницы, как указано на картинке")
-            await bot.send_photo(message.from_user.id, photo=file) 
-            
 
-@dp.message_handler(content_types=[types.ContentType.TEXT],chat_type=types.ChatType.PRIVATE)
-async def process(message: types.Message): 
-             
-    text = message.text
-    url = urlparse(text)
-    if url.scheme != 'https':
-        await message.reply("Введите пожалуйста действительный URL")
-        return
-    if url.netloc != 'stepik.org':
-        await message.reply("Введите пожалуйста действительный URL согласно инструкции")
-        return
-    user_id = url.path.split('/')[-1]
-    
-    if user_id.isdigit():        
-        unrestricted_permissions = ChatPermissions(
-            can_send_messages=True,
-            can_send_media_messages=True,
-            can_send_polls=True,
-            can_send_other_messages=True,
-            can_add_web_page_previews=True,
-            can_change_info=True,
-            can_invite_users=True,
-            can_pin_messages=True
-            )
-        await bot.restrict_chat_member(CHAT_ID, message.from_user.id, unrestricted_permissions)
-        await message.reply(f"Ваш ID: {user_id}. Спасибо за информацию!"
-                        f" Теперь вам открыт доступ к главной группе.")
-        
-        session = Session()
-        url = f"https://stepik.org/users/{user_id}"
-        name = html_title(url)
-        student = Student(name = name,tg_id=message.from_user.id, tg_full_name=message.from_user.first_name, tg_username=message.from_user.username)
-        session.add(student)
-        session.commit()
-        
-        await message.reply("Теперь Вы внесены в базу студентов.")       
-       
-    else:
-        await message.reply("Введите пожалуйста действительный URL. В ID могут быть только цифры!")
-   
+
 if __name__ == '__main__':
     executor.start_polling(dp) 
-
