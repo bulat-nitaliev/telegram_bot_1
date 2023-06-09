@@ -1,7 +1,7 @@
 import json
 from datetime import date
-from models import Result, Student, session, python_for_beginner, engine, Base
-from stepik import stepik_data, get_stepik_token
+from .models import Result, Student, session, python_for_beginner, engine, Base
+from .stepik import stepik_data, get_stepik_token
 from sqlalchemy import update, insert
 from datetime import datetime
 
