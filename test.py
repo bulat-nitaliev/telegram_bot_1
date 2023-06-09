@@ -6,9 +6,7 @@ from stepic_api import  data, stepic_name
 from config import stepik_id, course_id, tg_fullname, DEV_ID
 
 
-
 session = sessionmaker(bind=engine)()
-
 #User
 tg_id = DEV_ID
 tg_fullname = tg_fullname
@@ -19,6 +17,7 @@ new_user = User(tg_id=tg_id,tg_fullname=tg_fullname,stepik_id=stepik_id,course_i
 
 session.add(new_user)
 session.commit()
+
 
 user = session.query(User).filter(User.id==1).first()
 
