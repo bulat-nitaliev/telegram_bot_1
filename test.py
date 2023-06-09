@@ -18,17 +18,13 @@ new_user = User(tg_id=tg_id,tg_fullname=tg_fullname,stepik_id=stepik_id,course_i
 session.add(new_user)
 session.commit()
 
+my_stepik_id = 56576756
+url = f"https://stepik.org/users/{my_stepik_id}"
+name = html_title(url)
 
-user = session.query(User).filter(User.id==1).first()
-
-#Result
-name = stepic_name
-score = data['course-grades'][0]['score']
-y,m,d = map(int,data['course-grades'][0]['last_viewed'][:10].split('-'))
-last_viewed = date(y,m,d)
-
-result = Result(name=stepic_name,score=score,last_viewed=last_viewed,author=user)
-
-
-session.add(result)
+obj = Student(        
+    name = name
+)
+session.add(obj)
 session.commit()
+
