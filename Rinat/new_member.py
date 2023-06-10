@@ -3,18 +3,19 @@ import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
 from config import TOKEN, GROUP_ID, BOT_NAME, DEV_ID
-from static.data import greeting_text, id_passed_text, instructions
-from stepik import stepik_data, get_stepik_token
-from models import Student, Result, session, python_for_beginner, python_for_advanced
+from static.data import greeting_text, id_passed_text, instructions, step_course_advance, step_course_beginner
+from stepik import stepik_data, get_stepik_token, html_title
+from models import Student, Result, session, python_for_beginner, python_for_advanced, StepNameForBeginners, StepNameForAdvances
 from datetime import date
-
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token = TOKEN)
 dp = Dispatcher(bot)
 
 update_date = date.today()
+
 course_number = {58852: python_for_beginner,68343: python_for_advanced}
+
 
 @dp.message_handler(content_types=types.ContentType.NEW_CHAT_MEMBERS)
 async def welcome(message: types.Message):
@@ -105,7 +106,24 @@ async def private_msgs(message: types.Message):
 
                 session.commit()
             else:
-                continue   
+                continue
+               
+    step_course_all = {StepNameForBeginners: step_course_beginner, StepNameForAdvances: step_course_advance}
+    
+    for table_course, step_cours in step_course_all.items():
+        for name_step in step_cours:
+            record = session.query(table_course).filter_by(id=name_step).first()
+            
+            if record:
+                continue
+            else:
+                step_title_url = f'https://stepik.org/lesson/{name_step}/step/1?unit=406701'
+                txt = html_title(step_title_url)            
+                new_step = table_course(id=name_step, name=txt[:txt.find('—')])                      
+                session.add(new_step)
+                session.commit()
+      
+        
               
     await bot.restrict_chat_member(
             chat_id=GROUP_ID, 
