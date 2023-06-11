@@ -1,11 +1,12 @@
 import logging
 import asyncio
+import datetime
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
 from shibzuko.config import TOKEN, GROUP_ID, BOT_NAME, DEV_ID, GROUP_NAME, ADMIN
 from shibzuko.static.data import greeting_text, id_passed_text, instructions, message_for_admin, url_error
-from shibzuko.stepik import stepik_data, get_stepik_token
-from shibzuko.models import Student, session
+from shibzuko.shibzukoStepik import stepik_data, get_stepik_token
+from shibzuko.models import Student, Result, Table, for_beginner, session
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=TOKEN)
@@ -67,32 +68,120 @@ async def test_url(message: types.Message, can_send_messages=False):
         name = user_data['users'][0]['full_name']
         tg_id = message.from_user.id
         tg_full_name = message.from_user.full_name
-        new_obj = Student(
+        new_obj1 = Student(
             id=stepik_id,
             name=name,
             tg_id=tg_id,
             tg_full_name=tg_full_name,
             tg_username=message.from_user.username
         )
-        print()
-        session.merge(new_obj)
+        session.merge(new_obj1)
         session.commit()
-        await bot.restrict_chat_member(
-            chat_id=GROUP_ID,
-            user_id=tg_id,
-            permissions=types.ChatPermissions(
-                can_send_messages=True,
-                can_send_media_messages=True
-            )
-        )
-        invite_link = await bot.export_chat_invite_link(GROUP_ID)
-        await message.answer(text=id_passed_text % invite_link)
+
+        update_resuts() # Вызываем функцию для заполнения результатов нового пользователя
+        #TODO: А что если человек еще не начал курс?ERROR?
 
         #############################
-
-
     else:
         await bot.send_message(user_id, url_error)
+
+
+
+
+#############################################
+# TODO: ПОменять источник
+course_id = '68343'
+user_id = '315844473'
+# total_score = 0
+user_update_date = ''
+
+
+def update_resuts():
+
+    user_results_url = f'https://stepik.org/api/course-grades?course={course_id}&user={user_id}'
+    user_results = stepik_data(user_results_url, stepik_token)
+    user_update_date = datetime.datetime.strptime(user_results['course-grades'][0]['last_viewed'], '%Y-%m-%dT%H:%M:%S.%fZ')
+    user_score = user_results['course-grades'][0]['score']
+
+
+    new_obj2 = Result(
+        # id=Student.id,
+        student_id=user_id,
+        # student=,
+        course_id=course_id,
+        score=user_score,
+        update_date=user_update_date
+    )
+    session.merge(new_obj2)
+    session.commit()
+
+###################
+
+    new_obj3 = for_beginner.insert().values(
+        student_id=new_obj2.id,
+        update_date=new_obj2.update_date
+    )
+
+    session.merge(new_obj3)
+    session.commit()
+
+def update_for_beginner():
+    url = f'https://stepik.org/api/course-grades?course={course_id}&user={user_id}'
+    result = Result()
+    print(result.id, result.update_date)
+    new_obj3 = for_beginner.insert().values(
+    student_id=result.id,
+    update_date=result.update_date
+    )
+
+    session.merge(new_obj3)
+    session.commit()
+
+# update_for_beginner()
+
+
+
+
+
+
+
+
+
+# students = session.query(Student).all()
+#
+# for student in students:
+#
+#     student.id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#############################################
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # @dp.message_handler(chat_type=types.ChatType.PRIVATE)
