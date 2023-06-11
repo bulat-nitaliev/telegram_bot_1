@@ -1,7 +1,7 @@
 import json
 from datetime import date
-from Rinat.models import Result, Student, session
-from Rinat.stepik import html_title
+from .models import Result, Student, session
+from .shibzukoStepik import html_title
 
 
 with open('data.json', encoding='utf-8') as data:

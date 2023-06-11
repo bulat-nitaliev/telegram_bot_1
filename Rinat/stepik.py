@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from config import CLIENT_ID, CLIENT_SECRET
+from .config import CLIENT_ID, CLIENT_SECRET
 
 
 def get_stepik_token():
@@ -19,11 +19,9 @@ def stepik_data(url, stepik_token):
                         headers={'Authorization': 'Bearer ' + stepik_token})
     if response.status_code == 200:
         return response.json()
-    try:
+    else:
         stepik_token = get_stepik_token()
         return stepik_data(url, stepik_token)
-    except:
-        return 'Unable to authorize with provided credentials'
 
 
 def html_title(url):

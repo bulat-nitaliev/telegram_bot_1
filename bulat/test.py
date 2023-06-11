@@ -1,7 +1,7 @@
 import json
 from datetime import date
-from Rinat.models import Result, Student, session
-from Rinat.stepik import html_title
+from models import Result, Student, session
+from stepic import stepik_data
 
 
 with open('data.json', encoding='utf-8') as data:
@@ -21,13 +21,16 @@ obj = Result(
 session.add(obj)
 session.commit()
 
-my_stepik_id = 270531229
-url = f"https://stepik.org/users/{my_stepik_id}"
-name = html_title(url)
+# my_stepik_id = 270531229
+# url = f"https://stepik.org/users/{my_stepik_id}"
+# #name = html_title(url)
+# stepik_token = get_stepik_token()
+# user_data = stepik_data(url, stepik_token)
+# name = user_data['users'][0]['full_name']
 
-obj = Student(
-    id = my_stepik_id,
-    name = name
-)
-session.add(obj)
-session.commit()
+# obj = Student(
+#     id = my_stepik_id,
+#     name = name
+# )
+# session.add(obj)
+# session.commit()
