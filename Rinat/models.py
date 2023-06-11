@@ -1,10 +1,14 @@
 from sqlalchemy import create_engine, Column, Integer, String, Date, Float, ForeignKey, Table, MetaData
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
-from static.data import for_beginner_columns, for_advanced, step_course_beginner, step_course_advance
+<<<<<<<< HEAD:Rinat/models.py
+from static.data import for_beginner, for_advanced, step_course_beginner, step_course_advance
+========
+from .static.data import for_beginner_columns
+
+>>>>>>>> main:rifat/models.py
 
 
-
-engine = create_engine('sqlite:///RifatDataBase.db')
+engine = create_engine('sqlite:///DataBase.db')
 metadata = MetaData()
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = Session()
@@ -41,13 +45,6 @@ class StepNameForAdvances(Base):
     __tablename__ = 'stepnameadvances'
     id = Column(Integer, primary_key=True)
     name = Column(String)
-
-class Stepname(Base):
-    __tablename__ = 'stepname'
-    id = Column(Integer, primary_key=True)
-    lesson_id = Column(Integer)
-    lesson_name = Column(String)  
-
 
 Base.metadata.create_all(engine)
 
