@@ -1,0 +1,526 @@
+{
+    "meta": {
+        "page": 1,
+        "has_next": false,
+        "has_previous": false
+    },
+    "course-grades": [
+        {
+            "id": 8583428,
+            "course": 67,
+            "user": 210732350,
+            "results": {
+                "2228-3": {
+                    "step_id": 6532,
+                    "is_passed": true,
+                    "first_success": 3,
+                    "total_submissions": 3,
+                    "score": 1.0
+                },
+                "2228-5": {
+                    "step_id": 6539,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 1.0
+                },
+                "2228-7": {
+                    "step_id": 11676,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2230-3": {
+                    "step_id": 11678,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2230-4": {
+                    "step_id": 11679,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2230-5": {
+                    "step_id": 11680,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2230-6": {
+                    "step_id": 11681,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2230-7": {
+                    "step_id": 11683,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2231-2": {
+                    "step_id": 6546,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2231-3": {
+                    "step_id": 6547,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2231-4": {
+                    "step_id": 13838,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2232-6": {
+                    "step_id": 6550,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2232-7": {
+                    "step_id": 6551,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2232-8": {
+                    "step_id": 6556,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 1.0
+                },
+                "2413-6": {
+                    "step_id": 6749,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2413-7": {
+                    "step_id": 6750,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2413-8": {
+                    "step_id": 11746,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "2414-5": {
+                    "step_id": 6752,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 1.0
+                },
+                "2414-6": {
+                    "step_id": 6755,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "3362-2": {
+                    "step_id": 11751,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "3362-5": {
+                    "step_id": 11755,
+                    "is_passed": true,
+                    "first_success": 3,
+                    "total_submissions": 3,
+                    "score": 1.0
+                },
+                "5047-1": {
+                    "step_id": 11761,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "5047-2": {
+                    "step_id": 11762,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "5047-3": {
+                    "step_id": 11764,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 1.0
+                },
+                "5047-4": {
+                    "step_id": 11765,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "5047-5": {
+                    "step_id": 11766,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "5047-6": {
+                    "step_id": 11767,
+                    "is_passed": true,
+                    "first_success": 3,
+                    "total_submissions": 3,
+                    "score": 2.0
+                },
+                "5047-7": {
+                    "step_id": 11769,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "6433-3": {
+                    "step_id": 13940,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "6433-6": {
+                    "step_id": 13943,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "3364-9": {
+                    "step_id": 12759,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "3364-4": {
+                    "step_id": 12760,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 1.0
+                },
+                "3364-11": {
+                    "step_id": 12761,
+                    "is_passed": true,
+                    "first_success": 4,
+                    "total_submissions": 4,
+                    "score": 1.0
+                },
+                "3364-5": {
+                    "step_id": 12762,
+                    "is_passed": true,
+                    "first_success": 13,
+                    "total_submissions": 13,
+                    "score": 1.0
+                },
+                "3364-12": {
+                    "step_id": 12763,
+                    "is_passed": true,
+                    "first_success": 4,
+                    "total_submissions": 4,
+                    "score": 2.0
+                },
+                "3365-4": {
+                    "step_id": 12764,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "3365-2": {
+                    "step_id": 12765,
+                    "is_passed": true,
+                    "first_success": 4,
+                    "total_submissions": 4,
+                    "score": 1.0
+                },
+                "3365-3": {
+                    "step_id": 12766,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 1.0
+                },
+                "3366-7": {
+                    "step_id": 12767,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "3366-3": {
+                    "step_id": 12768,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 2.0
+                },
+                "3367-5": {
+                    "step_id": 12770,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "3367-3": {
+                    "step_id": 12771,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "3367-7": {
+                    "step_id": 12772,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "3368-10": {
+                    "step_id": 12773,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "3368-11": {
+                    "step_id": 12774,
+                    "is_passed": true,
+                    "first_success": 9,
+                    "total_submissions": 9,
+                    "score": 2.0
+                },
+                "3368-12": {
+                    "step_id": 12775,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "3368-3": {
+                    "step_id": 13273,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 1.0
+                },
+                "3368-8": {
+                    "step_id": 13277,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "3369-7": {
+                    "step_id": 12776,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "3369-8": {
+                    "step_id": 12777,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "3369-9": {
+                    "step_id": 12778,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "3369-10": {
+                    "step_id": 12779,
+                    "is_passed": true,
+                    "first_success": 4,
+                    "total_submissions": 4,
+                    "score": 2.0
+                },
+                "3369-11": {
+                    "step_id": 13281,
+                    "is_passed": false,
+                    "first_success": null,
+                    "total_submissions": 0,
+                    "score": 0.0
+                },
+                "3363-2": {
+                    "step_id": 13540,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 2.0
+                },
+                "3363-3": {
+                    "step_id": 13541,
+                    "is_passed": true,
+                    "first_success": 3,
+                    "total_submissions": 3,
+                    "score": 2.0
+                },
+                "3363-4": {
+                    "step_id": 13542,
+                    "is_passed": true,
+                    "first_success": 3,
+                    "total_submissions": 3,
+                    "score": 2.0
+                },
+                "3372-3": {
+                    "step_id": 13534,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "3372-8": {
+                    "step_id": 13535,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "3372-9": {
+                    "step_id": 13536,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 1.0
+                },
+                "3373-5": {
+                    "step_id": 13537,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 2.0
+                },
+                "3373-6": {
+                    "step_id": 13538,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 2.0
+                },
+                "3373-7": {
+                    "step_id": 13539,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 2.0
+                },
+                "3377-2": {
+                    "step_id": 13543,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 1.0
+                },
+                "3377-3": {
+                    "step_id": 13544,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "3378-2": {
+                    "step_id": 13545,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 1.0
+                },
+                "3378-3": {
+                    "step_id": 13546,
+                    "is_passed": true,
+                    "first_success": 2,
+                    "total_submissions": 2,
+                    "score": 2.0
+                },
+                "3380-1": {
+                    "step_id": 13548,
+                    "is_passed": true,
+                    "first_success": 3,
+                    "total_submissions": 3,
+                    "score": 2.0
+                },
+                "3380-3": {
+                    "step_id": 13550,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "3380-4": {
+                    "step_id": 13551,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "3380-5": {
+                    "step_id": 14248,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                },
+                "3380-2": {
+                    "step_id": 15264,
+                    "is_passed": true,
+                    "first_success": 1,
+                    "total_submissions": 1,
+                    "score": 2.0
+                }
+            },
+            "score": 98.0,
+            "rank": 26174,
+            "rank_max": 28053,
+            "rank_position": 27303,
+            "users_count": 678335,
+            "is_teacher": false,
+            "date_joined": "2020-04-11T11:56:41Z",
+            "last_viewed": "2023-05-21T06:47:06.890Z",
+            "certificate_issue_date": "2020-07-29T05:33:28Z",
+            "certificate_issue_regular_date": "2020-07-29T05:33:28.369Z",
+            "certificate_issue_distinction_date": "2022-03-21T12:41:23.116Z",
+            "certificate_update_date": "2022-03-30T09:47:25Z",
+            "certificate_url": "https://stepik.org/certificate/df91ba45fd9ebb265aa3fe81f1dc86585481e5d2.pdf"
+        }
+    ]
+}
