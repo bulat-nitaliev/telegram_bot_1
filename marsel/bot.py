@@ -29,7 +29,7 @@ async def welcome(message: types.Message):
             )
             greeting_msg = await bot.send_message(
                 chat_id=chat_id, 
-                text=greeting_text % (member.full_name, BOT_NAME)
+                text=greeting_text.format(member.full_name, BOT_NAME)
             )
             await asyncio.sleep(5)
             greeting_msg.delete()
