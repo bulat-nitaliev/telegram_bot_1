@@ -2,10 +2,10 @@ import logging
 import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
-from .config import TOKEN, GROUP_ID, BOT_NAME, DEV_ID
-from .static.data import greeting_text, id_passed_text, instructions
-from .stepik import stepik_data, get_stepik_token
-from .models import Student, session
+from config import TOKEN, GROUP_ID, BOT_NAME, DEV_ID
+from static.data import greeting_text, id_passed_text, instructions
+from stepik import stepik_data, get_stepik_token
+from models import Student, session
 
 
 logging.basicConfig(level=logging.INFO)
@@ -29,7 +29,7 @@ async def welcome(message: types.Message):
             )
             greeting_msg = await bot.send_message(
                 chat_id=chat_id, 
-                text=greeting_text % (member.full_name, BOT_NAME)
+                text=greeting_text.format(member.full_name, BOT_NAME)
             )
             await asyncio.sleep(5)
             greeting_msg.delete()
