@@ -1,14 +1,15 @@
 import json
 from datetime import date
-from .models import Result, Student, session, python_for_beginner, engine, Base
-from .stepik import stepik_data, get_stepik_token
+from models import Result, Student, session, python_for_beginner, engine, Base, Stepname
+from stepik import stepik_data, get_stepik_token, html_title
 from sqlalchemy import update, insert
 from datetime import datetime
+from static.data import for_beginner_columns, lesson_list
 
 
 
-with open('data.json', encoding='utf-8') as data:
-    data = json.load(data)
+# with open('data.json', encoding='utf-8') as data:
+#     data = json.load(data)
 
 # student_id = data['course-grades'][0]["user"]
 # course_id = data['course-grades'][0]["course"]
@@ -36,9 +37,10 @@ for student in students:
     user_data_url = f"https://stepik.org:443/api/course-grades?course={course_id}&user={student_id}"
     #Данные со stepik через API
     user_data = stepik_data(user_data_url, stepik_token)
+    # print(user_data)
     #Данные из файла data.json
-    #user_data = data
-    last_viewed = datetime.strptime(user_data['course-grades'][0]["last_viewed"], "%Y-%m-%dT%H:%M:%SZ").date()
+    # user_data = data
+    last_viewed = datetime.strptime(user_data['course-grades'][0]["last_viewed"], "%Y-%m-%dT%H:%M:%S.%fZ").date()
     date_today = date.today()
     delta = last_viewed - date_today
     if delta.days <= 1:
@@ -49,14 +51,13 @@ for student in students:
             session.commit()
             for key, item in user_data['course-grades'][0]["results"].items():
                 if user_data['course-grades'][0]["results"][key]["is_passed"]:
-                    update_query = update(python_for_beginner).values(**{key: date.today()})
+                    update_query = update(python_for_beginner).where(python_for_beginner.c.student_id == student_id).values(**{key: date.today()})
                     session.execute(update_query)
                     session.commit()
         else:
             for key, item in user_data['course-grades'][0]["results"].items():
                 if not getattr(begin_obj, key) and user_data['course-grades'][0]["results"][key]["is_passed"]:
                     update_query = update(python_for_beginner).where(python_for_beginner.c.student_id == student_id).values(**{key: date.today()}, update_date=date.today())
-                    # Выполняем запрос обновления
                     session.execute(update_query)
                     session.commit()
 
@@ -73,6 +74,39 @@ obj = Result(
 )
 session.add(obj)
 session.commit()
+
+
+
+for lesson in lesson_list:
+    lesson_url = f"https://stepik.org/lesson/{lesson}"
+    lesson_name = html_title(lesson_url)
+    result = session.query(Stepname).filter_by(lesson_id=lesson).first()
+    if not result:
+        obj_lesson = Stepname(
+        lesson_name = lesson_name,
+        lesson_id = lesson
+        )
+        session.merge(obj_lesson)
+        session.commit()
+
+# for lesson in (for_beginner_columns):
+#     lesson_id = str(lesson).split('-')[0]
+#     lesson_url = f"https://stepik.org/lesson/{lesson_id}"
+#     lesson_name = html_title(lesson_url)
+#     result = session.query(Stepname).filter_by(lesson_id=lesson_id).first()
+#     if not result:
+#         obj_lesson = Stepname(
+#             lesson_name = lesson_name,
+#             lesson_id = lesson_id
+#         )
+#         session.add(obj_lesson)
+#         session.commit()
+#     # obj_lesson = Stepname(
+#     # lesson_name = lesson_name,
+#     # lesson_id = lesson_id
+#     # )
+#     # session.merge(obj_lesson)
+#     # session.commit()
 
 
 

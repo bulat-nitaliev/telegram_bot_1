@@ -3,10 +3,10 @@ import asyncio
 from datetime import date
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
-from .config import TOKEN, GROUP_ID, BOT_NAME, DEV_ID
-from .static.data import greeting_text, id_passed_text, instructions, incorrect_url
-from .stepik import stepik_data, get_stepik_token
-from .models import Student, session, engine, Base, python_for_beginner
+from config import TOKEN, GROUP_ID, BOT_NAME, DEV_ID
+from static.data import greeting_text, id_passed_text, instructions, incorrect_url
+from stepik import stepik_data, get_stepik_token
+from models import Student, session, engine, Base, python_for_beginner
  
 
 logging.basicConfig(level=logging.INFO)
@@ -41,7 +41,7 @@ async def welcome(message: types.Message):
 @dp.message_handler(commands = ['start'], chat_type=types.ChatType.PRIVATE)
 async def start_command(message: types.Message):
     chat_id = message.chat.id
-    photo_path = "rifat/static/stepik_id.jpg"
+    photo_path = "static/stepik_id.jpg"
     await bot.send_photo(chat_id, photo=open(photo_path, 'rb'), caption=instructions)
 
 
