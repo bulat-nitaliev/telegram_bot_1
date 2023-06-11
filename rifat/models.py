@@ -1,10 +1,10 @@
 from sqlalchemy import create_engine, Column, Integer, String, Date, Float, ForeignKey, Table, MetaData
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
-from .static.data import for_beginner_columns
+from static.data import for_beginner_columns
 
 
 
-engine = create_engine('sqlite:///DataBase.db')
+engine = create_engine('sqlite:///RifatDataBase.db')
 metadata = MetaData()
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = Session()
@@ -30,6 +30,13 @@ class Result(Base):
     course_id = Column(Integer)
     score = Column(Float)
     update_date = Column(Date)
+
+class Stepname(Base):
+    __tablename__ = 'stepname'
+    id = Column(Integer, primary_key=True)
+    lesson_id = Column(Integer)
+    lesson_name = Column(String)  
+
 
 Base.metadata.create_all(engine)
 
