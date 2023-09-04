@@ -38,4 +38,4 @@ python_for_beginner = Table('for_beginner', metadata,
               Column('update_date', Date),
               *[Column(name, Date) for name in for_beginner])
 
-metadata.create_all(engine)
+Base.metadata.create_all(engine)
