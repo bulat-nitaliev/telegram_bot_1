@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine, Column, Integer, String, Date, Float, ForeignKey, Table, MetaData
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
-from static.data import beginner_columns
+from shibzuko.static.data import for_beginner
 
 
-engine = create_engine('sqlite:///marsel/DataBase.db')
+engine = create_engine('sqlite:///ShibzukoDataBase.db')
 metadata = MetaData()
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = Session()
@@ -30,17 +30,12 @@ class Result(Base):
     score = Column(Float)
     update_date = Column(Date)
 
-
-class PythonForBeginner(Base):
-    __tablename__ = 'python_for_beginner'
-
-    student_id = Column(Integer, primary_key=True)
-    update_date = Column(Date)
-    for column_name in beginner_columns:
-        setattr(Base, column_name, Column(Date))
-
 Base.metadata.create_all(engine)
 
 
+python_for_beginner = Table('for_beginner', metadata,
+              Column('student_id', Integer, primary_key=True),
+              Column('update_date', Date),
+              *[Column(name, Date) for name in for_beginner])
 
-Base.metadata.create_all(engine)
+metadata.create_all(engine)

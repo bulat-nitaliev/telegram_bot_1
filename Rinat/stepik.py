@@ -1,5 +1,6 @@
 import requests
-from config import CLIENT_ID, CLIENT_SECRET
+from bs4 import BeautifulSoup
+from .config import CLIENT_ID, CLIENT_SECRET
 
 
 def get_stepik_token():
@@ -21,12 +22,16 @@ def stepik_data(url, stepik_token):
     else:
         stepik_token = get_stepik_token()
         return stepik_data(url, stepik_token)
-<<<<<<< HEAD
-=======
-    
-stepic_token = get_stepik_token()
-url = 'https://stepik.org:443/api/course-grades?course=58852&user=190715002'
 
-data_for_beginer = stepik_data(url=url,stepik_token=stepic_token)
-for_beginer = [i for i in data_for_beginer['course-grades'][0]['results']]
->>>>>>> cd74be873aaea307c83145cafaa74e363b9c1ef4
+
+def html_title(url):
+    # Send a GET request to the URL
+    response = requests.get(url)
+
+    # Create a BeautifulSoup object to parse the HTML content
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    # Extract the title
+    title = soup.title.string.strip()[:-9]
+
+    return title
